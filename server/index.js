@@ -17,7 +17,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
       ? ['https://celadon-quokka-e2e57a.netlify.app']
-      : ["https://dice-battle-arena-server.onrender.com"],
+      : ["http://localhost:5173"],
     methods: ["GET", "POST"]
   }
 });
@@ -109,6 +109,11 @@ const processGameAction = (room, action, data) => {
 
   return gameState;
 };
+
+// Root endpoint to handle GET requests
+app.get('/', (req, res) => {
+  res.send('Welcome to Dice Battle Arena Server!');
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
