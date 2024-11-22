@@ -17,7 +17,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
       ? ['https://celadon-quokka-e2e57a.netlify.app']
-      : ["http://localhost:5173"],
+      : ["https://dice-battle-arena-server.onrender.com"],
     methods: ["GET", "POST"]
   }
 });
