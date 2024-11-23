@@ -1,10 +1,12 @@
 import express from 'express';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import cors from 'cors';
 import 'dotenv/config';
+
+import { configureSocket } from './src/config/socket.js';
+import { setupSocketHandlers } from './src/handlers/socketHandlers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,21 +27,10 @@ app.get('/health', (req, res) => {
 });
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: [
-      'https://lambent-nasturtium-dbb11c.netlify.app',
-      'http://localhost:5173'
-    ],
-    methods: ['GET', 'POST'],
-    credentials: true
-  },
-  transports: ['websocket']
-});
-
-// ... rest of your socket.io logic ...
+const io = configureSocket(httpServer);
+setupSocketHandlers(io);
 
 const PORT = process.env.PORT || 3000;
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
