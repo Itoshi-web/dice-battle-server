@@ -207,7 +207,6 @@ io.on('connection', (socket) => {
     if (!room || !room.started) return;
 
     // Process game action and update state
-    // This is where you'd implement your game logic
     io.to(roomId).emit('gameStateUpdated', { gameState: room.gameState });
   });
 
@@ -246,6 +245,11 @@ io.on('connection', (socket) => {
       }
     }
   });
+});
+
+// Root route to handle requests to '/'
+app.get('/', (req, res) => {
+  res.status(200).send('Welcome to the Dice Battle Server!');
 });
 
 // Health check endpoint for deployment
